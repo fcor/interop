@@ -1,0 +1,15 @@
+{
+  "name": "ble-socket",
+  "version": "0.0.1",
+  "description": "Test app to send BLE info to client website using websockets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fabio Cortés <fcor14@hotmail.com> (https://twitter.com/fabiojcortes)",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2",
+    "socket.io": "^2.0.3"
+  }
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>BLE Socket test</title>
+    <style media="screen">
+      body{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      .ble{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        border: 1px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ble" onclick="suma()">
+      <h1>Lux:</h1>
+      <h1 id="lux">287</h1>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+      const socket = io()
+      let num = 0
+      function suma() {
+        num = num + 1
+        document.getElementById('lux').innerHTML = num
+        socket.emit('numClick', num)
+      }
+      socket.on('getLux', function(msg){
+        document.getElementById('lux').innerHTML = msg
+    });
+    </script>
+  </body>
+</html>
