@@ -32,8 +32,8 @@
       <canvas id="light" width="400" height="300"></canvas>
     </div>
     <div class="xbee">
-      <h1>Light</h1>
-      <canvas id="light" width="400" height="300"></canvas>
+      <h1>Num</h1>
+      <canvas id="num" width="400" height="300"></canvas>
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
@@ -47,13 +47,28 @@
         datasets: [{
           data: [0],
           label: 'Light',
-          backgroundColor: '#ff6600'
+          // backgroundColor: '#ff6600'
         }]
       }
       var optionsAnimations = { animation: false }
       var chart = new Chart(ctx, {
         type: 'line',
         data: data,
+        options: optionsAnimations
+      })
+
+      var ctx2 = document.getElementById('num').getContext('2d')
+      var data2 = {
+        labels: [0],
+        datasets: [{
+          data: [0],
+          label: 'Light',
+          // backgroundColor: '#ff6600'
+        }]
+      }
+      var chart2 = new Chart(ctx2, {
+        type: 'line',
+        data: data2,
         options: optionsAnimations
       })
 
@@ -70,8 +85,17 @@
         chart.update()
       });
 
-      socket.on('getNum', function(msg){
-        document.getElementById('num').innerHTML = msg
+      socket.on('getNum', function(value){
+        var length = data2.labels.length
+        if (length >= 20) {
+          data2.datasets[0].data.shift()
+          data2.labels.shift()
+        }
+
+        data2.labels.push(moment().format('HH:mm:ss'))
+        data2.datasets[0].data.push(value)
+
+        chart2.update()
       });
     </script>
   </body>
