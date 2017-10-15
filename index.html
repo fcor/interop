@@ -28,19 +28,48 @@
   </head>
   <body>
     <div class="ble">
-      <h1>Lux:</h1>
-      <h1 id="lux">---</h1>
+      <h1>Light</h1>
+      <canvas id="light" width="400" height="300"></canvas>
     </div>
     <div class="xbee">
-      <h1>Num:</h1>
-      <h1 id="num">---</h1>
+      <h1>Light</h1>
+      <canvas id="light" width="400" height="300"></canvas>
     </div>
     <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script type="text/javascript">
       const socket = io()
-      socket.on('getLux', function(msg){
-        document.getElementById('lux').innerHTML = msg
+
+      var ctx = document.getElementById('light').getContext('2d')
+      var data = {
+        labels: [0],
+        datasets: [{
+          data: [0],
+          label: 'Light',
+          backgroundColor: '#ff6600'
+        }]
+      }
+      var optionsAnimations = { animation: false }
+      var chart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: optionsAnimations
+      })
+
+      socket.on('getLux', function(value){
+        var length = data.labels.length
+        if (length >= 20) {
+          data.datasets[0].data.shift()
+          data.labels.shift()
+        }
+
+        data.labels.push(moment().format('HH:mm:ss'))
+        data.datasets[0].data.push(value)
+
+        chart.update()
       });
+
       socket.on('getNum', function(msg){
         document.getElementById('num').innerHTML = msg
       });
