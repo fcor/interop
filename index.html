@@ -7,7 +7,7 @@
       body{
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-around;
         height: 100vh;
       }
       .ble{
@@ -17,25 +17,33 @@
         flex-direction: row;
         border: 1px solid red;
       }
+      .xbee{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        border: 1px solid red;
+      }
     </style>
   </head>
   <body>
-    <div class="ble" onclick="suma()">
+    <div class="ble">
       <h1>Lux:</h1>
-      <h1 id="lux">287</h1>
+      <h1 id="lux">---</h1>
+    </div>
+    <div class="xbee">
+      <h1>Num:</h1>
+      <h1 id="num">---</h1>
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
       const socket = io()
-      let num = 0
-      function suma() {
-        num = num + 1
-        document.getElementById('lux').innerHTML = num
-        socket.emit('numClick', num)
-      }
       socket.on('getLux', function(msg){
         document.getElementById('lux').innerHTML = msg
-    });
+      });
+      socket.on('getNum', function(msg){
+        document.getElementById('num').innerHTML = msg
+      });
     </script>
   </body>
 </html>

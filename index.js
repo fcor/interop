@@ -6,6 +6,12 @@ const io = require('socket.io')(http)
 const Bean = require('ble-bean')
 let intervalId, connectedBean
 
+const SerialPort = require('serialport');
+const Readline = SerialPort.parsers.Readline;
+const port = new SerialPort('/dev/ttyACM0');
+const parser = new Readline();
+
+
 app.get('/', function(req, res){
 res.sendFile(__dirname + '/index.html')
 })
@@ -15,6 +21,11 @@ io.on('connection', function(socket){
   // setTimeout(function() {
   //   io.emit('getLux', 'Works! 3 secs later')
   // } , 3000);
+
+  port.pipe(parser);
+  parser.on('data', function (data) {
+    io.emit('getNum', data)
+  });
 
   Bean.discover(function(bean){
     connectedBean = bean;
@@ -58,6 +69,8 @@ io.on('connection', function(socket){
 
 })
 
-http.listen(3000, function(){
+
+
+http.listen(80, function(){
   console.log('listening on *:3000')
 })
