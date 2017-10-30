@@ -2,67 +2,140 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>BLE Socket test</title>
-    <style media="screen">
-      body{
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        height: 100vh;
-      }
-      .ble{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: row;
-        border: 1px solid red;
-      }
-      .xbee{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: row;
-        border: 1px solid red;
-      }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/estilos.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <title>Tesis Nelson</title>
+    <link rel="stylesheet" href="/css/estilos.css">
   </head>
   <body>
-    <div class="ble">
-      <h1>Light</h1>
-      <canvas id="light" width="400" height="300"></canvas>
+    <div id="overlay" class="overlay"> </div>
+    <header class="header">
+      <div class="fake-header">
+        <nav class="navbar contenedor">
+          <div class="logo">
+            <img class="logo1" src="/images/logo.png" alt="logo" width="180px">
+          </div>
+          <div id="hamburger" class="hamburger-menu">
+            <div id="barras">
+              <div id="bar1" class="bar"></div>
+              <div id="bar2" class="bar"></div>
+              <div id="bar3" class="bar"></div>
+            </div>
+          </div>
+          <div id="menu" class="menu">
+            <div class="menu-foto">
+              <img src="/images/user.png" alt="user">
+            </div>
+            <div class="menu-text">
+              <p class="text">Bonbon jujubes pudding pie cotton candy sweet biscuit croissant dessert.
+                Muffin powder caramels jelly cupcake pie dragée candy canes pastry. Lollipop
+                lemon drops chocolate bar chocolate bar jelly beans.<br><br>Jujubes tootsie roll cookie
+                lollipop ice cream jelly I love. Pie I love bear claw halvah fruitcake wafer
+                danish chocolate. Cookie caramels bear claw pastry. Bonbon jelly beans powder.</p>
+                <h3 class="menu-t">Contacto</h3>
+                <p class="text2">contacto@interop.com</p>
+            </div>
+            <div class="menu-iconos">
+              <img src="/images/fb.png" alt="facebook" width="40px" height="40px">
+              <img src="/images/gh.png" alt="github" width="40px" height="40px">
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <div class="contenido contenedor">
+      <div class="portada">
+        <h1>Interoperabilidad en tus manos</h1>
+        <p>Bonbon jujubes pudding pie cotton candy sweet biscuit croissant dessert.
+           Muffin powder caramels jelly cupcake pie dragée candy canes pastry. Lollipop
+           lemon drops chocolate bar chocolate bar jelly beans.<br>Jujubes tootsie roll cookie
+          lollipop ice cream jelly I love. Pie I love bear claw halvah fruitcake wafer
+           danish chocolate. Cookie caramels bear claw pastry. Bonbon jelly beans powder.</p>
+        </div>
+        <h2>Selecciona una tecnología</h2>
+      <div class="botones">
+        <div class="b-col1">
+          <div class="boton1">
+            <button onclick="lora()"class="boton">Lora</button>
+          </div>
+          <div class="boton2">
+            <button onclick="ble()"class="boton">Bluetooth</button>
+          </div>
+        </div>
+        <div class="b-col2">
+          <div class="boton3">
+            <button onclick="xbee()"class="boton">X-Bee</button>
+          </div>
+          <div class="boton4">
+            <button onclick="todos()" class="boton">Todos</button>
+          </div>
+        </div>
+      </div>
+      <div class="cuadros">
+        <div id="lora1" class="c-lora">
+          <h3>Lora - Sensor de luz</h3>
+          <canvas id="chart1" width="400" height="150"></canvas>
+        </div>
+        <div id="ble1" class="c-ble">
+          <h3>Bluetooth - Sensor de luz</h3>
+          <canvas id="chart2" width="300" height="150"></canvas>
+        </div>
+        <div id="xbee1" class="c-xbee">
+          <h3>Xbee - Sensor de luz</h3>
+          <canvas id="chart3" width="300" height="150"></canvas>
+        </div>
+      </div>
     </div>
-    <div class="xbee">
-      <h1>Num</h1>
-      <canvas id="num" width="400" height="300"></canvas>
-    </div>
+    <footer class="footer">
+      <div class="footer-caja">
+        <div class="logo-footer">
+          <img src="/images/logofooter.png" alt="logo">
+        </div>
+        <div class="letras-footer">
+          <p class="pfooter">Copyright © 2017 Interop - Desarrollado por Nelson Agudelo</p>
+        </div>
+
+      </div>
+    </footer>
+
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script type="text/javascript">
       const socket = io()
 
-      var ctx = document.getElementById('light').getContext('2d')
+      var ctx = document.getElementById('chart1').getContext('2d')
       var data = {
         labels: [0],
         datasets: [{
           data: [0],
-          label: 'Light',
-          // backgroundColor: '#ff6600'
+          label: 'Temperature',
+          // backgroundColor: '#F44436',
+          borderColor: '#F44436',
+          pointBackgroundColor: '#F44436'
         }]
       }
-      var optionsAnimations = { animation: false }
-      var chart = new Chart(ctx, {
+      var optionsAnimations = {
+        animation: false,
+        legend: {
+          display: false
+        },
+        responsive: true
+      }
+      var chart1 = new Chart(ctx, {
         type: 'line',
         data: data,
         options: optionsAnimations
       })
 
-      var ctx2 = document.getElementById('num').getContext('2d')
+      var ctx2 = document.getElementById('chart2').getContext('2d')
       var data2 = {
         labels: [0],
         datasets: [{
           data: [0],
-          label: 'Light',
+          label: 'Temperature',
           // backgroundColor: '#ff6600'
         }]
       }
@@ -82,7 +155,7 @@
         data.labels.push(moment().format('HH:mm:ss'))
         data.datasets[0].data.push(value)
 
-        chart.update()
+        chart1.update()
       });
 
       socket.on('getNum', function(value){
@@ -97,6 +170,62 @@
 
         chart2.update()
       });
+
+      // Menu //
+      var barrras = document.getElementById('barras')
+      var bar1 = document.getElementById('bar1')
+      var bar2 = document.getElementById('bar2')
+      var bar3 = document.getElementById('bar3')
+      var menu = document.getElementById('menu')
+      var hamburger = document.getElementById('hamburger')
+      var overlay = document.getElementById('overlay')
+      var menuActive = false
+
+      barras.addEventListener('click', (event) => {
+      if(menuActive){
+        bar1.style.animation = 'bar1out .5s forwards'
+        bar2.style.animation = 'bar2out .5s forwards'
+        bar3.style.animation = 'bar3out .5s forwards'
+        menuActive = false
+        menu.classList.toggle('active')
+        hamburger.classList.toggle('active')
+        overlay.classList.toggle('active')
+      } else{
+        menuActive = true
+        bar1.style.animation = 'bar1in .5s forwards'
+        bar2.style.animation = 'bar2in .5s forwards'
+        bar3.style.animation = 'bar3in .5s forwards'
+        menu.classList.toggle('active')
+        hamburger.classList.toggle('active')
+        overlay.classList.toggle('active')
+
+      }
+      })
+      // Botones//
+      var lora1 = document.getElementById('lora1')
+      var ble1 = document.getElementById('ble1')
+      var xbee1 = document.getElementById('xbee1')
+
+      function lora() {
+        ble1.classList.add('borrar')
+        xbee1.classList.add('borrar')
+        lora1.classList.remove('borrar')
+      }
+      function ble() {
+        lora1.classList.add('borrar')
+        xbee1.classList.add('borrar')
+        ble1.classList.remove('borrar')
+      }
+      function xbee() {
+        ble1.classList.add('borrar')
+        lora1.classList.add('borrar')
+        xbee1.classList.remove('borrar')
+      }
+      function todos() {
+        ble1.classList.remove('borrar')
+        xbee1.classList.remove('borrar')
+        lora1.classList.remove('borrar')
+      }
     </script>
   </body>
 </html>

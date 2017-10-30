@@ -1,6 +1,7 @@
 "use strict";
 
-const app = require('express')()
+const express = require('express');
+const app = express();
 const http = require('http').Server(app)
 const io = require('socket.io')(http)
 const Bean = require('ble-bean')
@@ -16,6 +17,8 @@ app.get('/', function(req, res){
 res.sendFile(__dirname + '/index.html')
 })
 
+app.use(express.static('public'));
+
 io.on('connection', function(socket){
   console.log('User connected');
   // setTimeout(function() {
@@ -24,7 +27,8 @@ io.on('connection', function(socket){
 
   port.pipe(parser);
   parser.on('data', function (data) {
-    io.emit('getNum', data)
+    // io.emit('getNum', data)
+    console.log(data);
   });
 
   Bean.discover(function(bean){
@@ -72,5 +76,5 @@ io.on('connection', function(socket){
 
 
 http.listen(80, function(){
-  console.log('listening on *:3000')
+  console.log('listening on *:80')
 })
