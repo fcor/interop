@@ -48,20 +48,23 @@
     <div class="contenido contenedor">
       <div class="portada">
         <h1>Interoperabilidad en tus manos</h1>
-        <p>Bonbon jujubes pudding pie cotton candy sweet biscuit croissant dessert.
-           Muffin powder caramels jelly cupcake pie dragée candy canes pastry. Lollipop
-           lemon drops chocolate bar chocolate bar jelly beans.<br>Jujubes tootsie roll cookie
-          lollipop ice cream jelly I love. Pie I love bear claw halvah fruitcake wafer
-           danish chocolate. Cookie caramels bear claw pastry. Bonbon jelly beans powder.</p>
+        <p>Interop pone a tu alcance el monitoreo en tiempo real de diversos sensores electrónicos. Gracias a la interoperabilidad de tecnologías
+          celulares e inalámbricas, puedes ver el estado de tus sistemas sin importar donde te encuentres y sin preocuparte por adaptar tu
+          proyecto a una tecnología en particular. Interop conecta tecnologías inalámbricas como BLE, LoRa y Xbee con la red celular para
+          poner tu información en la nube.
+          <br>
+          Este prototipo, creado con fines académicos, permite evaluar el rendimiento de diversas tecnologías de comunicación inalámbricas y la
+          integración con la red celular para llevar a todo el mundo los datos capturados.
+        </p>
         </div>
         <h2>Selecciona una tecnología</h2>
       <div class="botones">
         <div class="b-col1">
           <div class="boton1">
-            <button onclick="lora()"class="boton">Lora</button>
+            <button onclick="ble()"class="boton">Bluetooth</button>
           </div>
           <div class="boton2">
-            <button onclick="ble()"class="boton">Bluetooth</button>
+            <button onclick="lora()"class="boton">Lora</button>
           </div>
         </div>
         <div class="b-col2">
@@ -74,12 +77,12 @@
         </div>
       </div>
       <div class="cuadros">
-        <div id="lora1" class="c-lora">
-          <h3>Lora - Sensor de luz</h3>
+        <div id="ble1" class="c-lora">
+          <h3>BLE - Sensor de luz</h3>
           <canvas id="chart1" width="400" height="150"></canvas>
         </div>
-        <div id="ble1" class="c-ble">
-          <h3>Bluetooth - Sensor de luz</h3>
+        <div id="lora1" class="c-ble">
+          <h3>Lora - Sensor de luz</h3>
           <canvas id="chart2" width="300" height="150"></canvas>
         </div>
         <div id="xbee1" class="c-xbee">
