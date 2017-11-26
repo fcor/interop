@@ -37,7 +37,9 @@ io.on('connection', function(socket){
 
     bean.on("serial", function(data, valid){
       const lux = parseInt(data.toString());
-      io.emit('getLux', lux)
+      const timeStamp = new Date()
+      const ms = timeStamp.getTime()
+      io.emit('getLux', lux, ms)
     });
 
 

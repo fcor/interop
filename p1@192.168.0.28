@@ -108,8 +108,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script type="text/javascript">
       const socket = io()
-      let paquetes = 0
-      let start = new Date()
+
       var ctx = document.getElementById('chart1').getContext('2d')
       var data = {
         labels: [0],
@@ -149,19 +148,7 @@
         options: optionsAnimations
       })
 
-      socket.on('getLux', function(value, timeStamp){
-        // console.log(timeStamp);
-        paquetes++
-        const arrivalTime = new Date()
-        const arrivalMs = arrivalTime.getTime()
-        const latencia = arrivalMs - timeStamp
-        console.log("El dato " + value + " tardó " + latencia + "ms en llegar");
-        const elapsed = arrivalMs - start
-        if (elapsed >= 60000) {
-          console.log("Se recibieron " + paquetes + "/60 paquetes");
-          paquetes = 0
-          start = new Date()
-        }
+      socket.on('getLux', function(value){
         var length = data.labels.length
         if (length >= 20) {
           data.datasets[0].data.shift()
@@ -186,7 +173,6 @@
 
         chart2.update()
       });
-
 
       // Menu //
       var barrras = document.getElementById('barras')
