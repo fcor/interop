@@ -27,8 +27,12 @@ io.on('connection', function(socket){
 
   port.pipe(parser);
   parser.on('data', function (data) {
-    // io.emit('getNum', data)
-    console.log(data);
+    const res = data.split(" ")
+    const temp = res[1]
+    const rssi = res[3]
+    // console.log(temp)
+    // console.log(rssi)
+    io.emit('getNum', temp)
   });
 
   Bean.discover(function(bean){
