@@ -31,7 +31,7 @@ io.on('connection', function(socket){
     const temp = res[1]
     const rssi = res[3]
     // console.log(temp)
-    // console.log(rssi)
+    console.log(rssi)
     io.emit('getNum', temp)
   });
 
