@@ -12,6 +12,11 @@ const Readline = SerialPort.parsers.Readline;
 const port = new SerialPort('/dev/ttyACM0');
 const parser = new Readline();
 
+const Particle = require('particle-api-js')
+const particle = new Particle()
+const token = '86d6bf630f3a67efdd35ea2a6c1a5903fbc10898'
+const deviceID = '450028000851363136363935'
+
 
 app.get('/', function(req, res){
 res.sendFile(__dirname + '/index.html')
@@ -25,13 +30,32 @@ io.on('connection', function(socket){
   //   io.emit('getLux', 'Works! 3 secs later')
   // } , 3000);
 
+  async function fetchFromParticle (variable){
+    const response = await particle.getVariable({ deviceId: deviceID, name: variable, auth: token })
+    return response.body.result
+  }
+  
+  async function getData(){
+    try {
+      const sensor = await fetchFromParticle(`sensor`)
+      const rssi = await fetchFromParticle(`rss1`)
+    
+      console.log(sensor)
+      console.log(rssi)
+    } catch (error) {
+      console.log('There was an error')
+    }
+  }
+  
+  setInterval(getData, 3000)
+
   port.pipe(parser);
   parser.on('data', function (data) {
     const res = data.split(" ")
     const temp = res[1]
     const rssi = res[3]
     // console.log(temp)
-    console.log(rssi)
+    // console.log(rssi)
     io.emit('getNum', temp)
   });
 
